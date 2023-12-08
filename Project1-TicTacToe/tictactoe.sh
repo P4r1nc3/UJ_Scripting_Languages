@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Initialize the board
-BOARD=("-" "-" "-" "-" "-" "-" "-" "-" "-")
-END_GAME=0
-PLAYER="X"
-WINNER=""
-
 # Function to display the Tic-Tac-Toe board
 function display_board {
     echo " ${BOARD[0]} | ${BOARD[1]} | ${BOARD[2]} "
@@ -214,6 +208,7 @@ function reset_board {
 
 # Menu
 function menu {
+    reset_board
     while true; do
         echo "Menu:"
         echo "1. New Game (Player vs Player)"
