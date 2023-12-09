@@ -28,3 +28,18 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: open path
+  steps:
+    - intent: open
+    - action: action_is_open
+
+- story: show opening hours path
+  steps:
+    - intent: show_opening_hours
+    - action: action_show_opening_hours
+
+- story: show menu path
+  steps:
+    - intent: show_menu
+    - action: action_show_menu
