@@ -151,8 +151,15 @@ nlu:
 
 - intent: place_order
   examples: |
-    - I'd like to order a [Burger](dish).
-    - Can I get two [Pizzas](dish), please?
-    - Order [Spaghetti Carbonara](dish) for me.
-    - I want to order [Lasagne](dish) and a [Hot-dog](dish).
-    - Add three [Burgers](dish) to my order.
+    - I'd like to order [Burger](dish).
+    - I'd like to order [Burger](dish), and [Lasagne](dish).
+    - I'd like to order [Pizzas](dish), [Lasagne](dish), and [Hot-dog](dish).
+    - I'd like to order [Lasagne](dish), [Pizza](dish), [Hot-dog](dish), and [Tiramisu](dish).
+    - I want to order [Lasagne](dish).
+    - I want to order [Lasagne](dish) and [Hot-dog](dish).
+    - I want to order [Burger](dish), [Lasagne](dish), and [Tiramisu](dish).
+    - I want to order [Burger](dish), [Pizza](dish), [Lasagne](dish), [Hot-dog](dish), and [Tiramisu](dish).
+    - Can I get [Pizzas](dish)?
+    - Can I get [Burger](dish), and [Pizza](dish)?
+    - Can I get [Burger](dish), [Pizza](dish), and [Hot-dog](dish)?
+    - Can I get [Burger](dish), [Pizza](dish), [Lasagne](dish), [Hot-dog](dish), and [Tiramisu](dish)?
