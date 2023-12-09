@@ -114,7 +114,7 @@ nlu:
     - Is the restaurant open at [10](hour) on [Monday](day)?
     - Is the restaurant open on [Monday](day) at [10](hour)?
     - Can I grab a meal on [Friday](day) at [6](hour)?
-    - Are you open on [Sunday](day) at [8 AM](hour)?
+    - Are you open on [Sunday](day) at [8](hour)?
 
 - intent: show_opening_hours
   examples: |
@@ -163,3 +163,14 @@ nlu:
     - Can I get [Burger](dish), and [Pizza](dish)?
     - Can I get [Burger](dish), [Pizza](dish), and [Hot-dog](dish)?
     - Can I get [Burger](dish), [Pizza](dish), [Lasagne](dish), [Hot-dog](dish), and [Tiramisu](dish)?
+
+- intent: provide_address
+  examples: |
+    - My address is [123 Main Street](address).
+    - [456 Oak Avenue](address) is where I want the delivery.
+    - Deliver to [789 Pine Lane](address).
+    - Here is my address: [987 Elm Street](address).
+    - [555 Birch Road](address), please.
+    - I live at [321 Cedar Drive](address).
+    - [876 Maple Court](address) is the delivery address.
+    - Send it to [234 Spruce Lane](address).
