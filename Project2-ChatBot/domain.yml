@@ -12,17 +12,21 @@ intents:
   - show_menu
   - show_opening_hours
   - place_order
+  - provide_address
 
 entities:
   - day
   - hour
   - dish
+  - address
 
 actions:
   - action_is_open
   - action_show_menu
   - action_show_opening_hours
   - action_place_order
+  - action_ask_for_address
+  - action_confirm_order
 
 responses:
   utter_greet:

@@ -158,6 +158,39 @@ class ActionPlaceOrder(Action):
 
         return []
 
+class ActionAskForAddress(Action):
+    def name(self) -> Text:
+        return 'action_ask_for_address'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(
+            text="Sure, I'd like to confirm your order. Can you please provide your delivery address?")
+        return []
+
+
+class ActionConfirmOrder(Action):
+    def name(self) -> Text:
+        return 'action_confirm_order'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # Assuming 'address' is an entity extracted from the user's response
+        delivery_address = tracker.get_latest_entity_values("address")
+
+        if not delivery_address:
+            dispatcher.utter_message(
+                text="I'm sorry, but it seems like you didn't provide a valid address. Please try again.")
+            return []
+
+        dispatcher.utter_message(
+            text=f"Great! Your order will be delivered to {', '.join(delivery_address)}. Thank you for ordering!"
+        )
+
+        return []
+
 def load_menu_data():
     with open('jsondata/menu.json', 'r') as file:
         menu_data = json.load(file)
