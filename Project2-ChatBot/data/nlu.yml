@@ -102,20 +102,33 @@ nlu:
 
 - intent: open
   examples: |
+    - Is the restaurant open at [10](hour) on [Monday](day)?
+    - Is the restaurant open on [Monday](day) at [10](hour)?
+    - Can I grab a meal on [Friday](day) at [6](hour)?
+    - Are you open on [Sunday](day) at [8 AM](hour)?
+
+- intent: show_opening_hours
+  examples: |
     - What time do you open?
     - When do you start serving food?
     - Can you tell me your opening hours?
-    - Is the restaurant open at [10 AM](hour) on [Monday](day)?
-    - What are your hours on [Tuesday](day)?
-    - Are you open for lunch on [Wednesday](day)?
-    - When can I visit on [Thursday](day)?
-    - Can I grab a meal on [Friday](day) at [6 PM](hour)?
-    - What time can I come in on [Saturday](day)?
-    - Are you open on [Sunday](day) at [8 AM](hour)?
-    - Can I dine in at [12](hour) noon?
+    - What are your operating hours?
+    - When can I visit your restaurant?
+    - What time can I dine in?
+    - When are you available for customers?
+    - Could you provide information about your hours?
+    - Tell me when I can order a meal.
+    - When does your restaurant start serving?
+    - Can you share your schedule?
+    - What times are you open during the week?
+    - When do you accept orders?
+    - Could you let me know your opening hours?
 
 - intent: show_menu
   examples: |
+    - What can I order?
+    - Show me your menu.
+    - Could you list the menu.
     - What can I order from your menu?
     - Could you show me the list of meals you offer?
     - What dishes do you have in your menu?
