@@ -8,6 +8,18 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - open
+  - show_menu
+  - show_opening_hours
+
+entities:
+  - day
+  - hour
+
+actions:
+  - action_is_open
+  - action_show_menu
+  - action_show_opening_hours
 
 responses:
   utter_greet:
