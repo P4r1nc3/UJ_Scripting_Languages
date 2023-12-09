@@ -23,6 +23,54 @@ class ActionHelloWorld(Action):
 
         return []
 
+class ActionIsOpen(Action):
+    def name(self) -> Text:
+        return "action_is_open"
+
+    def run(self, dispatcher: CollectingDispatcher,
+                        tracker: Tracker,
+                        domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        request_day = ([blob['value'] for blob in tracker.latest_message['entities'] if blob['entity'] == 'day'] or ('',))[0]
+        request_hour = ([blob['value'] for blob in tracker.latest_message['entities'] if blob['entity'] == 'hour'] or ('',))[0]
+
+        data = open('jsondata/opening_hours.json')
+        opening_data = json.load(data)
+        opening_items = opening_data['items']
+
+        hours = opening_items.get(request_day.capitalize())
+
+        if hours is None:
+            dispatcher.utter_message(text="Sorry, you entered incorrect data")
+            data.close()
+            return []
+
+        if request_hour is '':
+            if int(hours['open']) == 0 and int(hours['close']) == 0:
+                dispatcher.utter_message(text=f"Unfortunately restaurant is close on {request_day}")
+                data.close()
+                return []
+
+            dispatcher.utter_message(text=f"Yes, restaurant is open between {hours['open']} and {hours['close']} on {request_day}")
+            data.close()
+            return []
+
+        if request_hour is not '':
+            if int(request_hour) < 0 or int(request_hour) > 24:
+                dispatcher.utter_message(text="Sorry, you entered incorrect hour")
+                data.close()
+                return []
+
+            if hours['close'] > int(request_hour) > hours['open']:
+                dispatcher.utter_message(text=f"Yes, our restaurant is open on {request_day} at {request_hour}")
+                data.close()
+                return []
+            else:
+                dispatcher.utter_message(text=f"No, our restaurant is close on {request_day} at {request_hour}")
+                data.close()
+                return []
+        return []
+
 class ActionShowOpeningHours(Action):
     def name(self) -> Text:
         return 'action_show_opening_hours'
@@ -69,3 +117,40 @@ class ActionShowMenu(Action):
         dispatcher.utter_message(text=menu_message)
         data.close()
         return []
+
+
+class ActionPlaceOrder(Action):
+    def name(self) -> Text:
+        return 'action_place_order'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        menu_item_entity = next(tracker.get_latest_entity_values("dish"), None)
+
+        if not menu_item_entity:
+            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify the item you want to order.")
+            return []
+
+        menu_data = load_menu_data()
+        menu_item = menu_item_entity.lower()
+
+        if menu_item in menu_data:
+            price_per_item = menu_data[menu_item]['price']
+            preparation_time = menu_data[menu_item]['preparation_time']
+
+            dispatcher.utter_message(
+                text=f"Your order for {menu_item} has been placed. The total amount is {price_per_item}zl. Your {menu_item} will be ready in {preparation_time} minutes."
+            )
+        else:
+            dispatcher.utter_message(
+                text="I'm sorry, but it seems like the item you requested is not on our menu. Please choose from the available options."
+            )
+
+        return []
+
+def load_menu_data():
+    with open('jsondata/menu.json', 'r') as file:
+        menu_data = json.load(file)
+    return {item['name'].lower(): item for item in menu_data['items']}

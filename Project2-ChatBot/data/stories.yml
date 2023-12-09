@@ -43,3 +43,8 @@ stories:
   steps:
     - intent: show_menu
     - action: action_show_menu
+
+- story: place order path
+  steps:
+    - intent: place_order
+    - action: action_place_order

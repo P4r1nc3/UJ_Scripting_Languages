@@ -100,6 +100,15 @@ nlu:
     - saturday
     - sunday
 
+- lookup: dish
+  examples: |
+    - Burger
+    - Pizza
+    - Spaghetti Carbonara
+    - Lasagne
+    - Hot-dog
+    - Tiramisu
+
 - intent: open
   examples: |
     - Is the restaurant open at [10](hour) on [Monday](day)?
@@ -139,3 +148,11 @@ nlu:
     - What's available to eat?
     - Can you list the dishes you serve?
     - Provide information about your menu.
+
+- intent: place_order
+  examples: |
+    - I'd like to order a [Burger](dish).
+    - Can I get two [Pizzas](dish), please?
+    - Order [Spaghetti Carbonara](dish) for me.
+    - I want to order [Lasagne](dish) and a [Hot-dog](dish).
+    - Add three [Burgers](dish) to my order.

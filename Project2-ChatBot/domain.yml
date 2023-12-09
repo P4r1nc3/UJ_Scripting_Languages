@@ -11,15 +11,18 @@ intents:
   - open
   - show_menu
   - show_opening_hours
+  - place_order
 
 entities:
   - day
   - hour
+  - dish
 
 actions:
   - action_is_open
   - action_show_menu
   - action_show_opening_hours
+  - action_place_order
 
 responses:
   utter_greet:
