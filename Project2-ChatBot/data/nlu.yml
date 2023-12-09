@@ -89,3 +89,40 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- lookup: day
+  examples: |
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+    - saturday
+    - sunday
+
+- intent: open
+  examples: |
+    - What time do you open?
+    - When do you start serving food?
+    - Can you tell me your opening hours?
+    - Is the restaurant open at [10 AM](hour) on [Monday](day)?
+    - What are your hours on [Tuesday](day)?
+    - Are you open for lunch on [Wednesday](day)?
+    - When can I visit on [Thursday](day)?
+    - Can I grab a meal on [Friday](day) at [6 PM](hour)?
+    - What time can I come in on [Saturday](day)?
+    - Are you open on [Sunday](day) at [8 AM](hour)?
+    - Can I dine in at [12](hour) noon?
+
+- intent: show_menu
+  examples: |
+    - What can I order from your menu?
+    - Could you show me the list of meals you offer?
+    - What dishes do you have in your menu?
+    - Can you provide details about the items on your menu?
+    - Tell me about your food options.
+    - Show me what's on the menu.
+    - What kind of cuisine is on your menu?
+    - What's available to eat?
+    - Can you list the dishes you serve?
+    - Provide information about your menu.
