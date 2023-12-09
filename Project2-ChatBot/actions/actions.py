@@ -118,7 +118,6 @@ class ActionShowMenu(Action):
         data.close()
         return []
 
-
 class ActionPlaceOrder(Action):
     def name(self) -> Text:
         return 'action_place_order'
@@ -127,26 +126,35 @@ class ActionPlaceOrder(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        menu_item_entity = next(tracker.get_latest_entity_values("dish"), None)
+        menu_items_entities = tracker.get_latest_entity_values("dish")
 
-        if not menu_item_entity:
-            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify the item you want to order.")
+        if not menu_items_entities:
+            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify any items you want to order.")
             return []
 
         menu_data = load_menu_data()
-        menu_item = menu_item_entity.lower()
+        total_price = 0
 
-        if menu_item in menu_data:
-            price_per_item = menu_data[menu_item]['price']
-            preparation_time = menu_data[menu_item]['preparation_time']
+        for menu_item_entity in menu_items_entities:
+            menu_item = menu_item_entity.lower()
 
-            dispatcher.utter_message(
-                text=f"Your order for {menu_item} has been placed. The total amount is {price_per_item}zl. Your {menu_item} will be ready in {preparation_time} minutes."
-            )
-        else:
-            dispatcher.utter_message(
-                text="I'm sorry, but it seems like the item you requested is not on our menu. Please choose from the available options."
-            )
+            if menu_item in menu_data:
+                price_per_item = menu_data[menu_item]['price']
+                preparation_time = menu_data[menu_item]['preparation_time'] * 60
+
+                dispatcher.utter_message(
+                    text=f"Your order for {menu_item} has been placed. The total amount is {price_per_item}zl. Your {menu_item} will be ready in {preparation_time} minutes."
+                )
+
+                total_price += price_per_item
+            else:
+                dispatcher.utter_message(
+                    text=f"I'm sorry, but it seems like {menu_item} is not on our menu. Please choose from the available options."
+                )
+
+        dispatcher.utter_message(
+            text=f"The total amount for your order is {total_price}zl. Your order will be ready soon."
+        )
 
         return []
 
