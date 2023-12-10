@@ -151,18 +151,11 @@ nlu:
 
 - intent: place_order
   examples: |
-    - I'd like to order [Burger](dish).
-    - I'd like to order [Burger](dish), and [Lasagne](dish).
-    - I'd like to order [Pizzas](dish), [Lasagne](dish), and [Hot-dog](dish).
-    - I'd like to order [Lasagne](dish), [Pizza](dish), [Hot-dog](dish), and [Tiramisu](dish).
-    - I want to order [Lasagne](dish).
-    - I want to order [Lasagne](dish) and [Hot-dog](dish).
-    - I want to order [Burger](dish), [Lasagne](dish), and [Tiramisu](dish).
-    - I want to order [Burger](dish), [Pizza](dish), [Lasagne](dish), [Hot-dog](dish), and [Tiramisu](dish).
-    - Can I get [Pizzas](dish)?
-    - Can I get [Burger](dish), and [Pizza](dish)?
-    - Can I get [Burger](dish), [Pizza](dish), and [Hot-dog](dish)?
-    - Can I get [Burger](dish), [Pizza](dish), [Lasagne](dish), [Hot-dog](dish), and [Tiramisu](dish)?
+    - I'd like to order [Burger](dish) [with no pickles](special_request).
+    - I want to order [Lasagne](dish) [without cheese](special_request).
+    - Can I get [Pizza](dish) [with pepperoni](special_request)?
+    - I want to order [Hot-dog](dish) [with soy sauce on the side](special_request).
+    - Can I get [Burger](dish) [without ketchup](special_request)?
 
 - intent: provide_address
   examples: |
