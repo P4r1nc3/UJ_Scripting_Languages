@@ -48,6 +48,5 @@ stories:
   steps:
     - intent: place_order
     - action: action_place_order
-    - action: action_ask_for_address
     - intent: provide_address
     - action: action_confirm_order

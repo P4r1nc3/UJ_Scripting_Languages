@@ -156,7 +156,8 @@ class ActionPlaceOrder(Action):
                 )
 
         dispatcher.utter_message(
-            text=f"The total amount for your order is {total_price}zl."
+            text=f"The total amount for your order is {total_price}zl.\n"
+                 f"To confirm your order, please provide your delivery address."
         )
 
         sqlConnection = pymysql.connect(host="localhost", user="root", password="admin12345", database="rasa_bot")
@@ -173,19 +174,6 @@ class ActionPlaceOrder(Action):
         sqlConnection.close()
 
         return [SlotSet("order_id", order_id)]
-
-class ActionAskForAddress(Action):
-    def name(self) -> Text:
-        return 'action_ask_for_address'
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(
-            text="To confirm your order, please provide your delivery address.")
-        return []
-
 
 class ActionConfirmOrder(Action):
     def name(self) -> Text:
