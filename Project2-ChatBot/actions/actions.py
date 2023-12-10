@@ -129,13 +129,19 @@ class ActionPlaceOrder(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        personal_details_entities = tracker.get_latest_entity_values("personal_details")
         menu_item_entities = tracker.get_latest_entity_values("dish")
         special_request_entities = tracker.get_latest_entity_values("special_request")
+
+        if not personal_details_entities:
+            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't introduced yourself. Please firstly introduce yourself, to place an order.")
+            return []
 
         if not menu_item_entities:
             dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify any item you want to order.")
             return []
 
+        personal_details = next(personal_details_entities)
         menu_item = next(menu_item_entities).lower()
         special_request = next(special_request_entities).lower()
 
@@ -146,9 +152,10 @@ class ActionPlaceOrder(Action):
             preparation_time = menu_data[menu_item]['preparation_time'] * 60
 
             dispatcher.utter_message(
-                text=f"{menu_item.capitalize()} costs {price_per_item}zl "
+                text=f"Hi, {personal_details}!\n"
+                     f"{menu_item.capitalize()} costs {price_per_item}zl "
                      f"and has been added to your order.\n"
-                     f"Your {menu_item} {special_request} will be ready in {preparation_time} minutes.\n\n"
+                     f"Your {menu_item} {special_request} will be ready in {preparation_time} minutes."
             )
 
             total_price = price_per_item
@@ -168,8 +175,8 @@ class ActionPlaceOrder(Action):
         cursor = sqlConnection.cursor()
 
         cursor.execute(
-            "INSERT INTO orders (menu_item, quantity, special_request, total_price, customer_name) VALUES (%s, %s, %s, %s, %s)",
-            (menu_item, 1, special_request, total_price, "John Doe"))
+            "INSERT INTO orders (menu_item, quantity, special_request, total_price, personal_details) VALUES (%s, %s, %s, %s, %s)",
+            (menu_item, 1, special_request, total_price, personal_details))
 
         cursor.execute("SELECT LAST_INSERT_ID()")
         order_id = cursor.fetchone()[0]
