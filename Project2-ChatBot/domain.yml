@@ -20,6 +20,14 @@ entities:
   - dish
   - address
 
+slots:
+  order_id:
+    type: text
+    mappings:
+      - type: from_text
+        intent: inform
+        role: order_id
+
 actions:
   - action_is_open
   - action_show_menu
