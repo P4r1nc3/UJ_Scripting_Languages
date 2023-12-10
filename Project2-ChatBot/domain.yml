@@ -33,7 +33,6 @@ actions:
   - action_show_menu
   - action_show_opening_hours
   - action_place_order
-  - action_ask_for_address
   - action_confirm_order
 
 responses:
