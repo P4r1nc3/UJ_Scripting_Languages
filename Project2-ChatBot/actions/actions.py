@@ -8,6 +8,9 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
+import pymysql
+import sys
 import json
 
 class ActionHelloWorld(Action):
@@ -156,7 +159,20 @@ class ActionPlaceOrder(Action):
             text=f"The total amount for your order is {total_price}zl."
         )
 
-        return []
+        sqlConnection = pymysql.connect(host="localhost", user="root", password="admin12345", database="rasa_bot")
+        cursor = sqlConnection.cursor()
+
+        cursor.execute(
+            "INSERT INTO orders (menu_item, quantity, total_price, customer_name) VALUES (%s, %s, %s, %s)",
+            (menu_items_entities, 1, total_price, "John Doe"))
+
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        order_id = cursor.fetchone()[0]
+
+        sqlConnection.commit()
+        sqlConnection.close()
+
+        return [SlotSet("order_id", order_id)]
 
 class ActionAskForAddress(Action):
     def name(self) -> Text:
@@ -177,13 +193,25 @@ class ActionConfirmOrder(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # Assuming 'address' is an entity extracted from the user's response
+
         delivery_address = tracker.get_latest_entity_values("address")
 
         if not delivery_address:
             dispatcher.utter_message(
                 text="I'm sorry, but it seems like you didn't provide a valid address. Please try again.")
             return []
+
+        order_id = tracker.get_slot("order_id")
+
+        sqlConnection = pymysql.connect(host="localhost", user="root", password="admin12345", database="rasa_bot")
+        cursor = sqlConnection.cursor()
+
+        cursor.execute(
+            "UPDATE orders SET delivery_address = %s WHERE order_id = %s",
+            (', '.join(delivery_address), order_id))
+
+        sqlConnection.commit()
+        sqlConnection.close()
 
         dispatcher.utter_message(
             text=f"Great! Your order will be delivered to {', '.join(delivery_address)}. Thank you for ordering!"
