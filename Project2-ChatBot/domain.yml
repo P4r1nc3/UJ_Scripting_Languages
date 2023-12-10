@@ -21,6 +21,7 @@ entities:
   - address
   - quantity
   - special_request
+  - personal_details
 
 slots:
   order_id:

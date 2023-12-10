@@ -151,11 +151,16 @@ nlu:
 
 - intent: place_order
   examples: |
-    - I'd like to order [Burger](dish) [with no pickles](special_request).
-    - I want to order [Lasagne](dish) [without cheese](special_request).
-    - Can I get [Pizza](dish) [with pepperoni](special_request)?
-    - I want to order [Hot-dog](dish) [with soy sauce on the side](special_request).
-    - Can I get [Burger](dish) [without ketchup](special_request)?
+    - Hello, I'm [Konrad Tupta](personal_details), I'd like to order [Burger](dish) [with no pickles](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), I want to order [Lasagne](dish) [without cheese](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), Can I get [Pizza](dish) [with pepperoni](special_request)?
+    - Hello, I'm [Konrad Tupta](personal_details), I want to order [Hot-dog](dish) [with soy sauce on the side](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), Can I get [Burger](dish) [without ketchup](special_request)?
+    - Hello, I'm [Konrad Tupta](personal_details), I'd like to order [Burger](dish) [with no pickles](special_request).
+    - I'm [Konrad Tupta](personal_details), I want to order [Lasagne](dish) [without cheese](special_request).
+    - I'm [Konrad Tupta](personal_details), Can I get [Pizza](dish) [with pepperoni](special_request)?
+    - I'm [Konrad Tupta](personal_details), I want to order [Hot-dog](dish) [with soy sauce on the side](special_request).
+    - I'm [Konrad Tupta](personal_details), Can I get [Burger](dish) [without ketchup](special_request)?
 
 - intent: provide_address
   examples: |
