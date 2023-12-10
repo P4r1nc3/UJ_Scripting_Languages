@@ -181,6 +181,7 @@ class ActionAskForAddress(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
         dispatcher.utter_message(
             text="To confirm your order, please provide your delivery address.")
         return []
@@ -214,7 +215,7 @@ class ActionConfirmOrder(Action):
         sqlConnection.close()
 
         dispatcher.utter_message(
-            text=f"Great! Your order will be delivered to {', '.join(delivery_address)}. Thank you for ordering!"
+            text=f"Great! Your order will be delivered. Thank you for ordering!"
         )
 
         return []
