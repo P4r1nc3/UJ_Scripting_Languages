@@ -166,11 +166,11 @@ nlu:
 
 - intent: provide_address
   examples: |
-    - My address is [123 Main Street](address).
-    - [456 Oak Avenue](address) is where I want the delivery.
-    - Deliver to [789 Pine Lane](address).
-    - Here is my address: [987 Elm Street](address).
-    - [555 Birch Road](address), please.
-    - I live at [321 Cedar Drive](address).
-    - [876 Maple Court](address) is the delivery address.
-    - Send it to [234 Spruce Lane](address).
+    - My address is [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address) is where I want the delivery.
+    - Deliver to [Lojasiwicza 11 Krakow](address).
+    - Here is my address: [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address), please.
+    - I live at [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address) is the delivery address.
+    - Send it to [Lojasiwicza 11 Krakow](address).

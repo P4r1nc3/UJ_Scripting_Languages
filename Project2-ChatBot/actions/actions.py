@@ -143,7 +143,7 @@ class ActionPlaceOrder(Action):
                 preparation_time = menu_data[menu_item]['preparation_time'] * 60
 
                 dispatcher.utter_message(
-                    text=f"Your order for {menu_item} has been placed. The total amount is {price_per_item}zl. Your {menu_item} will be ready in {preparation_time} minutes."
+                    text=f"{menu_item_entity} which costs {price_per_item}zl has been added to your order.\nYour {menu_item} will be ready in {preparation_time} minutes.\n\n"
                 )
 
                 total_price += price_per_item
@@ -153,7 +153,7 @@ class ActionPlaceOrder(Action):
                 )
 
         dispatcher.utter_message(
-            text=f"The total amount for your order is {total_price}zl. Your order will be ready soon."
+            text=f"The total amount for your order is {total_price}zl."
         )
 
         return []
@@ -166,7 +166,7 @@ class ActionAskForAddress(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(
-            text="Sure, I'd like to confirm your order. Can you please provide your delivery address?")
+            text="To confirm your order, please provide your delivery address.")
         return []
 
 
