@@ -129,31 +129,35 @@ class ActionPlaceOrder(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        menu_items_entities = tracker.get_latest_entity_values("dish")
+        menu_item_entities = tracker.get_latest_entity_values("dish")
+        special_request_entities = tracker.get_latest_entity_values("special_request")
 
-        if not menu_items_entities:
-            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify any items you want to order.")
+        if not menu_item_entities:
+            dispatcher.utter_message(text="I'm sorry, but it seems like you didn't specify any item you want to order.")
             return []
 
+        menu_item = next(menu_item_entities).lower()
+        special_request = next(special_request_entities).lower()
+
         menu_data = load_menu_data()
-        total_price = 0
 
-        for menu_item_entity in menu_items_entities:
-            menu_item = menu_item_entity.lower()
+        if menu_item in menu_data:
+            price_per_item = menu_data[menu_item]['price']
+            preparation_time = menu_data[menu_item]['preparation_time'] * 60
 
-            if menu_item in menu_data:
-                price_per_item = menu_data[menu_item]['price']
-                preparation_time = menu_data[menu_item]['preparation_time'] * 60
+            dispatcher.utter_message(
+                text=f"{menu_item.capitalize()} costs {price_per_item}zl "
+                     f"and has been added to your order.\n"
+                     f"Your {menu_item} {special_request} will be ready in {preparation_time} minutes.\n\n"
+            )
 
-                dispatcher.utter_message(
-                    text=f"{menu_item_entity} which costs {price_per_item}zl has been added to your order.\nYour {menu_item} will be ready in {preparation_time} minutes.\n\n"
-                )
+            total_price = price_per_item
 
-                total_price += price_per_item
-            else:
-                dispatcher.utter_message(
-                    text=f"I'm sorry, but it seems like {menu_item} is not on our menu. Please choose from the available options."
-                )
+        else:
+            dispatcher.utter_message(
+                text=f"I'm sorry, but it seems like {menu_item} is not on our menu. Please choose from the available options."
+            )
+            return []
 
         dispatcher.utter_message(
             text=f"The total amount for your order is {total_price}zl.\n"
@@ -164,8 +168,8 @@ class ActionPlaceOrder(Action):
         cursor = sqlConnection.cursor()
 
         cursor.execute(
-            "INSERT INTO orders (menu_item, quantity, total_price, customer_name) VALUES (%s, %s, %s, %s)",
-            (menu_items_entities, 1, total_price, "John Doe"))
+            "INSERT INTO orders (menu_item, quantity, special_request, total_price, customer_name) VALUES (%s, %s, %s, %s, %s)",
+            (menu_item, 1, special_request, total_price, "John Doe"))
 
         cursor.execute("SELECT LAST_INSERT_ID()")
         order_id = cursor.fetchone()[0]
