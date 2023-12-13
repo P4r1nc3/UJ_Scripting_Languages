@@ -1,0 +1,52 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: open path
+  steps:
+    - intent: open
+    - action: action_is_open
+
+- story: show opening hours path
+  steps:
+    - intent: show_opening_hours
+    - action: action_show_opening_hours
+
+- story: show menu path
+  steps:
+    - intent: show_menu
+    - action: action_show_menu
+
+- story: place order path
+  steps:
+    - intent: place_order
+    - action: action_place_order
+    - intent: provide_address
+    - action: action_confirm_order
