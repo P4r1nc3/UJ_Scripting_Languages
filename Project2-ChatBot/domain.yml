@@ -1,0 +1,63 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - open
+  - show_menu
+  - show_opening_hours
+  - place_order
+  - provide_address
+
+entities:
+  - day
+  - hour
+  - dish
+  - address
+  - quantity
+  - special_request
+  - personal_details
+
+slots:
+  order_id:
+    type: text
+    mappings:
+      - type: from_text
+        intent: inform
+        role: order_id
+
+actions:
+  - action_is_open
+  - action_show_menu
+  - action_show_opening_hours
+  - action_place_order
+  - action_confirm_order
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

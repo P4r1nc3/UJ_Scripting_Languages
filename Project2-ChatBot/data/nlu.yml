@@ -1,0 +1,174 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- lookup: day
+  examples: |
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+    - saturday
+    - sunday
+
+- lookup: dish
+  examples: |
+    - Burger
+    - Pizza
+    - Spaghetti Carbonara
+    - Lasagne
+    - Hot-dog
+    - Tiramisu
+
+- intent: open
+  examples: |
+    - Is the restaurant open at [10](hour) on [Monday](day)?
+    - Is the restaurant open on [Monday](day) at [10](hour)?
+    - Can I grab a meal on [Friday](day) at [6](hour)?
+    - Are you open on [Sunday](day) at [8](hour)?
+
+- intent: show_opening_hours
+  examples: |
+    - What time do you open?
+    - When do you start serving food?
+    - Can you tell me your opening hours?
+    - What are your operating hours?
+    - When can I visit your restaurant?
+    - What time can I dine in?
+    - When are you available for customers?
+    - Could you provide information about your hours?
+    - Tell me when I can order a meal.
+    - When does your restaurant start serving?
+    - Can you share your schedule?
+    - What times are you open during the week?
+    - When do you accept orders?
+    - Could you let me know your opening hours?
+
+- intent: show_menu
+  examples: |
+    - What can I order?
+    - Show me your menu.
+    - Could you list the menu.
+    - What can I order from your menu?
+    - Could you show me the list of meals you offer?
+    - What dishes do you have in your menu?
+    - Can you provide details about the items on your menu?
+    - Tell me about your food options.
+    - Show me what's on the menu.
+    - What kind of cuisine is on your menu?
+    - What's available to eat?
+    - Can you list the dishes you serve?
+    - Provide information about your menu.
+
+- intent: place_order
+  examples: |
+    - Hello, I'm [Konrad Tupta](personal_details), I'd like to order [2](quantity) [Burger](dish) [with no pickles](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), I want to order [2](quantity) [Lasagne](dish) [without cheese](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), Can I get [2](quantity) [Pizza](dish) [with pepperoni](special_request)?
+    - Hello, I'm [Konrad Tupta](personal_details), I want to order [2](quantity) [Hot-dog](dish) [with soy sauce on the side](special_request).
+    - Hello, I'm [Konrad Tupta](personal_details), Can I get [2](quantity) [Burger](dish) [without ketchup](special_request)?
+    - Hello, I'm [Konrad Tupta](personal_details), I'd like to order [2](quantity) [Burger](dish) [with no pickles](special_request).
+    - I'm [Konrad Tupta](personal_details), I want to order [2](quantity) [Lasagne](dish) [without cheese](special_request).
+    - I'm [Konrad Tupta](personal_details), Can I get [2](quantity) [Pizza](dish) [with pepperoni](special_request)?
+    - I'm [Konrad Tupta](personal_details), I want to order [2](quantity) [Hot-dog](dish) [with soy sauce on the side](special_request).
+    - I'm [Konrad Tupta](personal_details), Can I get [2](quantity) [Burger](dish) [without ketchup](special_request)?
+
+- intent: provide_address
+  examples: |
+    - My address is [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address) is where I want the delivery.
+    - Deliver to [Lojasiwicza 11 Krakow](address).
+    - Here is my address: [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address), please.
+    - I live at [Lojasiwicza 11 Krakow](address).
+    - [Lojasiwicza 11 Krakow](address) is the delivery address.
+    - Send it to [Lojasiwicza 11 Krakow](address).
