@@ -58,6 +58,7 @@ function love.load()
     resetBoard()
     gameState = "menu"
     lineClearSound = love.audio.newSource("line_clear.wav", "static")
+    blockPlaceSound = love.audio.newSource("block_place.wav", "static")
 end
 
 function resetBoard()
@@ -138,6 +139,7 @@ function placePiece()
             end
         end
     end
+    love.audio.play(blockPlaceSound)
     checkAndClearLines()
 end
 
@@ -223,6 +225,7 @@ function showMenu()
     love.graphics.printf("Tetris", 0, 200, love.graphics.getWidth(), "center")
     love.graphics.printf("Click Enter to start", 0, 250, love.graphics.getWidth(), "center")
     love.graphics.printf("Click L button to load saved game", 0, 300, love.graphics.getWidth(), "center")
+    love.graphics.printf("Click Q button to quit game", 0, 350, love.graphics.getWidth(), "center")
 end
 
 function saveGame()
@@ -271,6 +274,8 @@ function love.keypressed(key)
         elseif key == "l" then
             loadGame()
             gameState = "playing"
+        elseif key == "q" then
+            love.event.quit()
         end
     elseif gameState == "playing" then
         if key == "left" and canMove(-1, 0) then
