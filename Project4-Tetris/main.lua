@@ -51,15 +51,22 @@ local pieces = {
         {{1, 1}, {0, 1}, {0, 1}}
     }
 }
-local touchAreas = {
-    left = {x1 = 0, y1 = 0, x2 = 100, y2 = love.graphics.getHeight()},
-    right = {x1 = love.graphics.getWidth() - 100, y1 = 0, x2 = love.graphics.getWidth(), y2 = love.graphics.getHeight()}
-}
 local touchTimeStart = 0
 local touchStartedInGame = false
 local gameState = "menu"
 
 function love.load()
+    screenWidth = love.graphics.getWidth()
+    screenHeight = love.graphics.getHeight()
+
+    touchAreas = {
+        left = {x1 = 0, y1 = 0, x2 = 100, y2 = screenHeight},
+        right = {x1 = screenWidth - 100, y1 = 0, x2 = screenWidth, y2 = screenHeight},
+        load = {x1 = 0, y1 = 0, x2 = screenWidth / 3, y2 = 50},
+        reset = {x1 = screenWidth / 3, y1 = 0, x2 = 2 * screenWidth / 3, y2 = 50},
+        save = {x1 = 2 * screenWidth / 3, y1 = 0, x2 = screenWidth, y2 = 50}
+    }
+
     math.randomseed(os.time())
     resetBoard()
     gameState = "menu"
@@ -313,8 +320,13 @@ end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
     if gameState == "menu" then
-        gameState = "playing"
-        resetBoard()
+        if isWithinArea(x, y, touchAreas.load) then
+            loadGame()
+            gameState = "playing"
+        else
+            gameState = "playing"
+            resetBoard()
+        end
     elseif gameState == "playing" then
         touchTimeStart = love.timer.getTime()
         touchStartedInGame = true
@@ -326,6 +338,10 @@ function love.touchpressed(id, x, y, dx, dy, pressure)
             if canMove(1, 0) then
                 currentX = currentX + 1
             end
+        elseif isWithinArea(x, y, touchAreas.reset) then
+            resetBoard()
+        elseif isWithinArea(x, y, touchAreas.save) then
+            saveGame()
         elseif isCenterArea(x, y) then
             rotatePiece()
         end
@@ -335,7 +351,7 @@ end
 function love.touchreleased(id, x, y, dx, dy, pressure)
     if gameState == "playing" and touchStartedInGame then
         local touchDuration = love.timer.getTime() - touchTimeStart
-        if touchDuration > 1.0 then
+        if touchDuration > 1.0 and not (isWithinArea(x, y, touchAreas.reset) or isWithinArea(x, y, touchAreas.save)) then
             gameState = "menu"
             touchStartedInGame = false
         end
