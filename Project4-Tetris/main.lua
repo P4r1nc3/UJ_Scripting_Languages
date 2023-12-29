@@ -51,6 +51,12 @@ local pieces = {
         {{1, 1}, {0, 1}, {0, 1}}
     }
 }
+local touchAreas = {
+    left = {x1 = 0, y1 = 0, x2 = 100, y2 = love.graphics.getHeight()},
+    right = {x1 = love.graphics.getWidth() - 100, y1 = 0, x2 = love.graphics.getWidth(), y2 = love.graphics.getHeight()}
+}
+local touchTimeStart = 0
+local touchStartedInGame = false
 local gameState = "menu"
 
 function love.load()
@@ -154,26 +160,23 @@ function checkAndClearLines()
         end
 
         if isLineFull then
-            -- Animation effect for line clear
             for flash = 1, 5 do
                 for x = 1, boardWidth do
-                    board[y][x] = flash % 2 == 0 and {1, 1, 1} or {0, 0, 0} -- Flashing effect
+                    board[y][x] = flash % 2 == 0 and {1, 1, 1} or {0, 0, 0}
                 end
                 love.graphics.clear()
                 drawBoard()
                 love.graphics.present()
-                love.timer.sleep(0.1) -- Flashing speed
+                love.timer.sleep(0.1)
                 love.audio.play(lineClearSound)
             end
 
-            -- Move down the rest of the board
             for removeY = y, 2, -1 do
                 for removeX = 1, boardWidth do
                     board[removeY][removeX] = board[removeY - 1][removeX]
                 end
             end
 
-            -- Clear the top line
             for x = 1, boardWidth do
                 board[1][x] = 0
             end
@@ -306,4 +309,45 @@ function love.keypressed(key)
         love.graphics.clear()
         love.graphics.printf(errorMessage, 0, love.graphics.getHeight() / 2, love.graphics.getWidth(), "center")
     end
+end
+
+function love.touchpressed(id, x, y, dx, dy, pressure)
+    if gameState == "menu" then
+        gameState = "playing"
+        resetBoard()
+    elseif gameState == "playing" then
+        touchTimeStart = love.timer.getTime()
+        touchStartedInGame = true
+        if isWithinArea(x, y, touchAreas.left) then
+            if canMove(-1, 0) then
+                currentX = currentX - 1
+            end
+        elseif isWithinArea(x, y, touchAreas.right) then
+            if canMove(1, 0) then
+                currentX = currentX + 1
+            end
+        elseif isCenterArea(x, y) then
+            rotatePiece()
+        end
+    end
+end
+
+function love.touchreleased(id, x, y, dx, dy, pressure)
+    if gameState == "playing" and touchStartedInGame then
+        local touchDuration = love.timer.getTime() - touchTimeStart
+        if touchDuration > 1.0 then
+            gameState = "menu"
+            touchStartedInGame = false
+        end
+    end
+end
+
+function isCenterArea(x, y)
+    local screenWidth = love.graphics.getWidth()
+    local screenHeight = love.graphics.getHeight()
+    return x > screenWidth * 0.3 and x < screenWidth * 0.7 and y > screenHeight * 0.3 and y < screenHeight * 0.7
+end
+
+function isWithinArea(x, y, area)
+    return x >= area.x1 and x <= area.x2 and y >= area.y1 and y <= area.y2
 end
