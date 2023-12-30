@@ -10,7 +10,7 @@ player.onChat("render", function () {
     create_wall(origin, STONE, wallLength, wallHeight);
     create_towers(origin, STONE_BRICKS, towerSize, towerHeight, wallLength, wallHeight);
     create_passage(origin, wallLength, wallHeight);
-    create_tower_ladders(origin, towerSize, towerHeight, wallLength);
+    create_tower_ladders(origin, towerSize, towerHeight, wallLength, wallHeight);
     create_moat(origin, wallLength, towerSize, moatWidth);
     create_bridges(origin, wallLength, moatWidth, towerSize, PLANKS_OAK);
     fillCastleAreaWithCobblestone(origin, wallLength, towerSize, moatWidth);
@@ -74,7 +74,7 @@ function create_passage(start: Position, length: number, height: number) {
 
 function create_towers(start: Position, base_material: Block, size: number, height: number, wallLength: number, wallHeight: number) {
     let towerOffset = Math.floor(size / 2);
-    let holeSize = 1; // Hole size
+    let newFloorHeight = wallHeight + 3; // Height of the new floor
     let additionalHoleSize = 3; // Additional hole size
     let holeHeightOffset = 2; // Height offset for the additional hole
 
@@ -83,6 +83,7 @@ function create_towers(start: Position, base_material: Block, size: number, heig
         let x = (i % 2 === 0) ? -towerOffset : wallLength - towerOffset;
         let z = (i < 2) ? -towerOffset : wallLength - towerOffset;
 
+        // Fill the tower base material
         blocks.fill(base_material, start.add(pos(x, 0, z)), start.add(pos(x + size - 1, height, z + size - 1)), FillOperation.Replace);
 
         // Creating the roof
@@ -91,26 +92,24 @@ function create_towers(start: Position, base_material: Block, size: number, heig
         // Creating windows in the tower
         create_windows(start.add(pos(x, 0, z)), size, height, wallHeight);
 
-        // Creating a ladder (1x1) from the ground to just below the additional hole (3x3)
-        for (let y = 0; y < wallHeight + holeHeightOffset - 1; y++) {
-            blocks.place(LADDER, start.add(pos(x + Math.floor(size / 2), y, z + Math.floor(size / 2))));
-        }
-
-        // Creating a hole in the tower (1x1 in the center)
-        let holeX = x + Math.floor((size - holeSize) / 2);
-        let holeZ = z + Math.floor((size - holeSize) / 2);
-        blocks.fill(AIR, start.add(pos(holeX, 0, holeZ)), start.add(pos(holeX + holeSize - 1, height, holeZ + holeSize - 1)), FillOperation.Replace);
+        // Creating a hole in the tower (1x1 in the center) up to wallHeight
+        let holeX = x + Math.floor((size - 1) / 2);
+        let holeZ = z + Math.floor((size - 1) / 2);
+        blocks.fill(AIR, start.add(pos(holeX, 0, holeZ)), start.add(pos(holeX, wallHeight - 1, holeZ)), FillOperation.Replace);
 
         // Creating an additional hole (3x3) starting from 2 blocks above wallHeight to the top
-        if (height >= wallHeight + holeHeightOffset) {
-            let additionalHoleX = x + Math.floor((size - additionalHoleSize) / 2);
-            let additionalHoleZ = z + Math.floor((size - additionalHoleSize) / 2);
-            blocks.fill(AIR, start.add(pos(additionalHoleX, wallHeight + holeHeightOffset - 1, additionalHoleZ)), start.add(pos(additionalHoleX + additionalHoleSize - 1, height, additionalHoleZ + additionalHoleSize - 1)), FillOperation.Replace);
+        if (height > wallHeight + 4) {
+            let additionalHoleX = x + Math.floor((size - 3) / 2);
+            let additionalHoleZ = z + Math.floor((size - 3) / 2);
+            blocks.fill(AIR, start.add(pos(additionalHoleX, wallHeight + 4, additionalHoleZ)), start.add(pos(additionalHoleX + 2, height, additionalHoleZ + 2)), FillOperation.Replace);
         }
+
+        // Adding the new floor at the specified height
+        blocks.fill(base_material, start.add(pos(x, newFloorHeight, z)), start.add(pos(x + size - 1, newFloorHeight, z + size - 1)), FillOperation.Replace);
     }
 }
 
-function create_tower_ladders(origin: Position, towerSize: number, towerHeight: number, wallLength: number) {
+function create_tower_ladders(origin: Position, towerSize: number, towerHeight: number, wallLength: number, wallHeight: number) {
     let towerOffset = Math.floor(towerSize / 2);
 
     // Loop to place ladders in each of the four towers
@@ -118,8 +117,8 @@ function create_tower_ladders(origin: Position, towerSize: number, towerHeight: 
         let x = (i % 2 === 0) ? -towerOffset : wallLength - towerOffset;
         let z = (i < 2) ? -towerOffset : wallLength - towerOffset;
 
-        // Placing ladder inside the tower
-        for (let y = 0; y < towerHeight; y++) {
+        // Placing ladder inside the tower, up to the height of the wall
+        for (let y = 0; y < wallHeight + 4; y++) {
             let ladderX = x + Math.floor(towerSize / 2);
             let ladderZ = z + Math.floor(towerSize / 2);
             blocks.place(LADDER, origin.add(pos(ladderX, y, ladderZ)));
