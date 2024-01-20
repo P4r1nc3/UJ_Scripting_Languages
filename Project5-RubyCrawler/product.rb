@@ -1,4 +1,7 @@
+# product.rb
 class Product
+    attr_reader :product_title, :product_price, :product_link, :product_info
+
     def initialize(title, price, link)
         @product_title = title
         @product_price = price
