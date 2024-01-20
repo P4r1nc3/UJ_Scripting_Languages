@@ -17,4 +17,8 @@ class Product
         end
         puts "Link: #{@product_link}"
     end
+
+    def save_to_db
+        DB.execute("INSERT INTO products (title, price, link, additional_info) VALUES (?, ?, ?, ?)", [@product_title, @product_price, @product_link, @product_info])
+    end
 end
